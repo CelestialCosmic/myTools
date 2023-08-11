@@ -3,8 +3,11 @@ import subprocess
 import time
 import re
 import winreg
+# import chardet
 from winreg import *
-# addressOf7z = 
-# filePath = 
-# fileN
-# commandHasPasswd = "%s x %s\%s -p%s -o\"%s/extracted1/%s\" -aoa"%(addressOf7z,filePath,fileName,passes,filePath,fileName)
+readmeText = "D:\@game/new\extracted\蕾米莉亚睡眠姦\蕾米莉亚睡眠姦\MonoBleedingEdge/readme.txt"
+readmeText = "D:\@game/new\extracted\バースト♀バスターズ\バースト♀バスターズ/バスバス【起動できない方へ】.txt"
+with open(readmeText) as txt:
+    text = txt.read()
+    print(txt)
+    print(text)

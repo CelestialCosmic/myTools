@@ -37,11 +37,11 @@ def deleteRubbish(unZipFolderPath):
     "免费游戏资源点这.url",
     "本资源来自爱社：isyx001.cc 其他皆为司马盗链，谨防被骗 - 副本",
     "此游戏由黄油中心（老婆社）免费分享，电报搜索@LPS99.txt",
-    "点击购买机场用于翻墙.lnk",
-    "点击加入免费黄游频道（需要翻墙）.lnk",
-    "更多安卓黄油点击下载.lnk",
+    "点击购买机场用于翻墙.url",
+    "点击加入免费黄游频道（需要翻墙）.url",
+    "更多安卓黄油点击下载.url",
     "更多免费黄油下载地址（记得收藏）.txt",
-    "更多资源（请务必收藏）1 - 副本.lnk",
+    "更多资源（请务必收藏）1 - 副本.url",
     "请先读我 - 副本.txt",
     "wodeshujia",
     "破解VIP方法.txt",
@@ -57,40 +57,98 @@ def deleteRubbish(unZipFolderPath):
     "启动机翻.bat",
     "MTool_MapDataCache",
     "嘿嘿.txt",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
+    "更多免费资源.txt",
+    "注：此资源仅免费分享于哥特论坛：Www.gtloli.gay  除此之外其他任何地方看到此说明文件均为死妈废物倒转",
+    "!点击下载最新版本.txt",
+    "精品免费黄油网站巫妖社.url",
+    "_免费的资源交流网站.url",
+    "点击进入更多内容.url",
+    "动漫王国_一个免费的资源交流网站-.txt",
+    "哥特动漫王国_首页.url",
+    "在开始游戏前必看操作.txt",
+    "最全免费黄油app巫妖社.apk",
+    "更多资源尽在公众号.png",
+    "steam.txt",
+    "steam.url",
+    "-READ ME.txt",
+    "Prohibit any reproduction without permission",
+    "Telegram@quzimingyue",
+    "文件来源.txt",
+    "G与工具一同启动.bat",
+    "ScreenSelector.bmp",
+    "My Links.url",
+    "永久发布页.url",
+    "异次元空间官网.url",
+    "异次元空间专属APP.apk",
+    "readme.txt",
+    "index.html.url",
+    "READ_ME.txt",
+    "本资源来至阿蕾的分享.url",
+    "必看的说明.txt",
+    "资源来自阿拉蕾的小窝分享 .txt",
+    "最新.url",
     "America.png",
-    "更多免费资源（务必收藏）XP.txt",    
+    "更多免费资源（务必收藏）XP.txt",
+    "readme.txt",
+    "Read_Me.txt",
+    "config.txt",
+    "UnityPlayer.txt",
+    "发布页.url",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
     ]
-
+    urlList = [
+        "https://www.gtloli.gay/",
+        "https://www.gtloli.gay",
+        "https://2.allacg.xyz/"
+    ]
+    ambiguityFileList = [
+        "readme.txt",
+        "Read_Me.txt",
+        "config.txt",
+        "UnityPlayer.txt",
+        # "",
+        # "",
+        # "",
+        # "",
+        # "",
+        # "",
+        # "",
+        # "",
+        # "",
+        # "",
+        # "",
+        # "",
+        # "",
+        # "",
+        # "",
+        # "",
+        # "",
+        # "",
+    ]
     for root, dirs, files in os.walk(unZipFolderPath):
         for dirctory in dirs:
             # 先删除文件夹
@@ -105,15 +163,53 @@ def deleteRubbish(unZipFolderPath):
             # 后删除文件
             if filename in rubbishFileList:
                 rubbishFilePath = os.path.join(root, filename)
-                os.remove(rubbishFilePath)
+                # readme 特例
+                # 设置严格限制以避免误杀开发者和汉化者的readme
+                try:
+                    if (filename in ambiguityFileList):
+                        try:
+                            with open(rubbishFilePath) as f:
+                                readmeText = f.read()
+                                for url in urlList:
+                                    urls = len(re.findall(url,readmeText))
+                                    if(urls != 0):
+                                        f.close()
+                                        os.remove(rubbishFilePath)
+                                        break
+                                print(rubbishFilePath+"没有发现推广链接，不删除")
+                                continue
+                        except UnicodeDecodeError:
+                            with open(rubbishFilePath,encoding='utf-8') as f:
+                                readmeText = f.read()
+                                for url in urlList:
+                                    urls = len(re.findall(url,readmeText))
+                                    if(urls != 0):
+                                        f.close()
+                                        os.remove(rubbishFilePath)
+                                        break
+                                print(rubbishFilePath+"没有发现推广链接，不删除")
+                                continue
+                    os.remove(rubbishFilePath)
+                except PermissionError:
+                    os.chmod(rubbishFilePath, 436 )
+                    os.remove(rubbishFilePath)
+                    if os.path.exists(rubbishFilePath):
+                        print("无法删除"+rubbishFilePath)
+                        continue
+                # except FileNotFoundError:
+                #     pass
 
 def rmdir(path):
     # 删除整个文件夹
     for root, dirs, files in os.walk(path, topdown=False):
         for name in files:
-            os.remove(os.path.join(root, name))
+            fileToRemove = os.path.join(root, name)
+            os.chmod(fileToRemove, 436 )
+            os.remove(fileToRemove)
         for name in dirs:
-            os.rmdir(os.path.join(root, name))
+            fileToRemove = os.path.join(root, name)
+            os.chmod(fileToRemove, 436 )
+            os.rmdir(fileToRemove)
     os.rmdir(path)
 
 def selectPath():
@@ -178,7 +274,11 @@ def getFileList(unZipFolderPath):
     for fileName in os.listdir(unZipFolderPath):
         originalName = fileName
         fileName = fileName.replace(" ","_").replace("&","_and_").replace("～","_").replace("[","【").replace("]","】")
-        os.replace(unZipFolderPath+"/"+originalName,unZipFolderPath+"/"+fileName)
+        try:
+            os.replace(unZipFolderPath+"/"+originalName,unZipFolderPath+"/"+fileName)
+        except:
+            print("读取文件夹出错，请关闭文件浏览器")
+            return extractList,multiFileList
         # 重命名以避免脚本执行错误
         if(re.findall(r'part[\d].rar$',fileName) != []):
             if(fileName.endswith("part1.rar")):
@@ -205,10 +305,6 @@ def getFileList(unZipFolderPath):
             continue
         else:
             pass
-            
-    
-    print(extractList)
-    # print(multiFileList)
     return extractList,multiFileList
 
 def extract(addressOf7z,filePath,fileName):
@@ -251,7 +347,7 @@ def extract(addressOf7z,filePath,fileName):
     "杏铃天下第一可爱",
     "t.me/XLDTGPD",
     "⑨",
-    # "",
+    "muko",
     # "",
     # "",
     # "",
@@ -267,10 +363,8 @@ def extract(addressOf7z,filePath,fileName):
         try:
             testResult = str(subprocess.Popen(testCommand,stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.read())
             extractable = len(re.findall(r"Everything is Ok",testResult))+len(re.findall(r"There are data after the end of archive",testResult))
-            print(extractable)
             if fileName[-3:] == "zst":
                 extractable += 98
-            print(extractable)
             match extractable:
                 case 1:
                     os.system("start powershell.exe cmd /k '%s' "%extractCommand)
@@ -291,10 +385,11 @@ def extract(addressOf7z,filePath,fileName):
                     os.remove(os.path.join(filePath,fileName))
                     return 1
                 case 0:
-                    pass
+                    continue
         except PermissionError:
             print("访问被限制，请关闭所有的文件浏览器")
         return 0
+    print("无密码")
     return 0
 
 def main():
@@ -302,7 +397,7 @@ def main():
     addressOf7z,zstandardFlag = envirnmentCheck()
     if(addressOf7z == 0):
         return
-    unZipFolderPath = "D:\@game/new"
+    unZipFolderPath = "D:/@game/games"
     unZipFileList,multiFileList = getFileList(unZipFolderPath)
     doneFileList = []
     for f in unZipFileList:
@@ -321,17 +416,19 @@ def main():
             print("如下文件已被解压：")
             for fileName in doneFileList:
                 print(fileName)
-            print("\n------------------------\n请等待解压，一分钟后自动关闭")
+            print("\n------------------------\n请等待解压，同时程序正在删除垃圾文件")
             # 解压后将源文件挪入done里面，但不是立即移动
             # 而是等一分钟，防止没有解压完成就被杀死
-            time.sleep(60)
             doneFileList.extend(multiFileList)
             for fileName in doneFileList:
                 try:
                     os.replace(os.path.join(unZipFolderPath,fileName),os.path.join(unZipFolderPath+"/done/"+fileName))
                 except:
+                    print(fileName+" 无法移动")
                     pass
     deleteRubbish(unZipFolderPath)
+    print("已完成，一分钟后自动关闭")
+    time.sleep(60)
     
 main()
 # todo 添加tar.zst支持
