@@ -2,65 +2,26 @@ import os
 import subprocess
 import time
 import re
-global passwdList
-passwdList = [
-    # "半夏",
-    # "莱茵",
-    # "https://t.me/RhineLibrary",
-    # "dayuyu",
-    # "xiaoli",
-    # "ShirleyGames",
-    # "lt.gkdacg.com",
-    # "telegram@tgwebdrive",
-    # "天堂巴比伦",
-    # "LaiYin",
-    # "逍遥2048",
-    # "阿蕾",
-    # "ed2k",
-    # "指尖绅士",
-    # "zx",
-    # "三次郎",
-    # "QW333",
-    # "QW444",
-    # "91acg.xyz",
-    # "飞雪ACG论坛",
-    # "@HanaYuki",
-    # "哥特动漫王国@游龙逍遥",
-    # "ashin791209@eyny",
-    # "mengzhan-text",
-    # "himengzhan.com",
-    # "https://t.me/Zhzbzx",
-    # "",
-    # "",
-    # "",
-    # "",
-    # "",
-    # "",
-    # "",
-    # "",
-    # "",
-    # "",
-    # "",
-    # "",
-    # "",
-    # "",
-    # "",
-    "123",
-    ""
-]
-address_7z = "C:/Users/root/Desktop/7z/7-Zip/7z.exe"
-UnZipPath = "D:/@game/new/moon"
-UnZipFiles = os.listdir(UnZipPath)
-for fileName in UnZipFiles:
-    if (os.path.isdir(UnZipPath+"/"+fileName) == True):
-            print(fileName+" 是文件夹，跳过\n")
-            continue
-    for passes in passwdList:
-        command = "%s t %s\%s -p%s"%(address_7z,UnZipPath,fileName,passes)
-        print(command)
-        resultString = str(subprocess.Popen(command,stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.read())
-        print(resultString+"\n")
-        command2 = "%s x %s\%s -p%s -o\"%s/extracted1/%s\" -aoa"%(address_7z,UnZipPath,fileName,passes,UnZipPath,fileName)
-        print(command2)
-        resultString2 = str(subprocess.Popen(command2,stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.read())
-        print(resultString2+"\n")
+def rmdir(path):
+    # 删除整个文件夹
+    for root, dirs, files in os.walk(path, topdown=False):
+        for name in files:
+            fileToRemove = os.path.join(root, name)
+            os.chmod(fileToRemove, 436 )
+            os.remove(fileToRemove)
+        for name in dirs:
+            fileToRemove = os.path.join(root, name)
+            os.chmod(fileToRemove, 436 )
+            os.rmdir(fileToRemove)
+    os.rmdir(path)
+
+unZipFolderPath = "D:\@game/new/extracted"
+for folder in os.listdir(unZipFolderPath):
+    f = os.path.join(unZipFolderPath,folder)
+
+    if(os.path.isdir(f)):
+        print(len(os.listdir(f)))
+        print(os.listdir(f))
+        if(len(os.listdir(f)) == 0):
+            print(f)
+            rmdir(f)

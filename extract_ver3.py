@@ -4,6 +4,32 @@ import time
 import re
 from winreg import *
 
+def classifyEngine(unZipFolderPath):
+    
+    extractedFolder = os.listdir(os.path.join(unZipFolderPath,"extracted"))
+    print(extractedFolder)
+    # for folders in extractedFolder:
+    # 大引擎系
+    # unity
+    # unreal
+    # godot
+        # if()
+
+    # rpgmaker系
+    # rpgmakerMV/MZ/nwjs
+    # rpgmakerVX/VXACE
+    # pixelMakerMV
+
+    # 小引擎系
+    # gameMaker
+    # renpy
+    # kirikiri
+
+    # 完全未知/安卓安装包
+    # android
+    # unknown
+    pass
+
 def deleteRubbish(unZipFolderPath):
     rubbishFileList = [
     "【重要必须看】更多免费资源.txt",
@@ -94,16 +120,16 @@ def deleteRubbish(unZipFolderPath):
     "config.txt",
     "UnityPlayer.txt",
     "发布页.url",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
+    "Fap For Fun - Read me.txt",
+    "Fap For Fun.url",
+    "FapForFun – Free Hentai Torrent Download.url",
+    ".git",
+    ".gitignore",
+    "AGREE动漫游戏论坛.url",
+    "夜涩情趣淘宝店.url",
+    "夜涩情趣淘宝店推荐商品.html",
+    "请读我.txt",
+    "自购.jpg",
     "",
     "",
     "",
@@ -122,16 +148,17 @@ def deleteRubbish(unZipFolderPath):
     ]
     urlList = [
         "https://www.gtloli.gay/",
-        "https://www.gtloli.gay",
-        "https://2.allacg.xyz/"
+        "https://2.allacg.xyz/",
+        "https://t.me/huangyouqun",
+        "https://code.visualstudio.com/" # 专门排除 https://github.com/DazedMTL 的 readme
     ]
     ambiguityFileList = [
         "readme.txt",
         "Read_Me.txt",
         "config.txt",
         "UnityPlayer.txt",
-        # "",
-        # "",
+        "read me.txt",
+        "README.md",
         # "",
         # "",
         # "",
@@ -194,10 +221,11 @@ def deleteRubbish(unZipFolderPath):
                     os.chmod(rubbishFilePath, 436 )
                     os.remove(rubbishFilePath)
                     if os.path.exists(rubbishFilePath):
-                        print("无法删除"+rubbishFilePath)
+                        print("无法删除"+rubbishFilePath+"，需要手动干预")
                         continue
                 # except FileNotFoundError:
                 #     pass
+    return 1
 
 def rmdir(path):
     # 删除整个文件夹
@@ -256,24 +284,13 @@ def getFileList(unZipFolderPath):
     ".7z",
     "001",
     "tar",
-    "zst",
-    # "",
-    # "",
-    # "",
-    # "",
-    # "",
-    # "",
-    # "",
-    # "",
-    # "",
-    # "",
-    # ""
+    "zst"
     ]
     extractList = []
     multiFileList = []
     for fileName in os.listdir(unZipFolderPath):
         originalName = fileName
-        fileName = fileName.replace(" ","_").replace("&","_and_").replace("～","_").replace("[","【").replace("]","】")
+        fileName = fileName.replace(" ","_").replace("&","_and_").replace("～","_").replace("[","【").replace("]","】").replace("'","_")
         try:
             os.replace(unZipFolderPath+"/"+originalName,unZipFolderPath+"/"+fileName)
         except:
@@ -394,10 +411,11 @@ def extract(addressOf7z,filePath,fileName):
 
 def main():
     debugFlag = 0
+    clearFlag = 0
     addressOf7z,zstandardFlag = envirnmentCheck()
     if(addressOf7z == 0):
         return
-    unZipFolderPath = "D:/@game/games"
+    unZipFolderPath = "D:\@game/new"
     unZipFileList,multiFileList = getFileList(unZipFolderPath)
     doneFileList = []
     for f in unZipFileList:
@@ -417,6 +435,9 @@ def main():
             for fileName in doneFileList:
                 print(fileName)
             print("\n------------------------\n请等待解压，同时程序正在删除垃圾文件")
+            clearFlag = deleteRubbish(unZipFolderPath)
+            print("已完成，一分钟后自动关闭")
+            time.sleep(60)
             # 解压后将源文件挪入done里面，但不是立即移动
             # 而是等一分钟，防止没有解压完成就被杀死
             doneFileList.extend(multiFileList)
@@ -426,9 +447,10 @@ def main():
                 except:
                     print(fileName+" 无法移动")
                     pass
-    deleteRubbish(unZipFolderPath)
-    print("已完成，一分钟后自动关闭")
-    time.sleep(60)
+    if clearFlag == 1:
+        deleteRubbish(unZipFolderPath)
+    else:
+        pass
     
 main()
-# todo 添加tar.zst支持
+# todo 引擎判断
