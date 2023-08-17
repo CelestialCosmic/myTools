@@ -5,9 +5,7 @@ import re
 from winreg import *
 
 def classifyEngine(unZipFolderPath):
-    
-    extractedFolder = os.listdir(os.path.join(unZipFolderPath,"extracted"))
-    print(extractedFolder)
+
     # for folders in extractedFolder:
     # 大引擎系
     # unity
@@ -130,7 +128,7 @@ def deleteRubbish(unZipFolderPath):
     "夜涩情趣淘宝店推荐商品.html",
     "请读我.txt",
     "自购.jpg",
-    "",
+    "重要说明.txt",
     "",
     "",
     "",
@@ -454,3 +452,5 @@ def main():
     
 main()
 # todo 引擎判断
+# todo 分离垃圾文件名单
+# todo 判断是否解压完成
