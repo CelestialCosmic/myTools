@@ -88,7 +88,7 @@ def main():
     addressOf7z = "C:/Users/root/Desktop/7z/7-Zip/7z.exe"
     # unZipPath = input().replace("\\","/").rstrip("/")
     # 标记解压路径，如果路径最后一位带杠则去掉，方便处理
-    unZipPath = "D:/@game/new/moon"
+    unZipPath = "D:/@game/new"
     UnZipFiles = os.listdir(unZipPath)
     try:
         os.mkdir(unZipPath+"/done")

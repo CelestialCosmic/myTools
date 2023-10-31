@@ -3,177 +3,22 @@ import subprocess
 import time
 import re
 from winreg import *
-
-def classifyEngine(unZipFolderPath):
-
-    # for folders in extractedFolder:
-    # 大引擎系
-    # unity
-    # unreal
-    # godot
-        # if()
-
-    # rpgmaker系
-    # rpgmakerMV/MZ/nwjs
-    # rpgmakerVX/VXACE
-    # pixelMakerMV
-
-    # 小引擎系
-    # gameMaker
-    # renpy
-    # kirikiri
-
-    # 完全未知/安卓安装包
-    # android
-    # unknown
-    pass
-
 def deleteRubbish(unZipFolderPath):
-    rubbishFileList = [
-    "【重要必须看】更多免费资源.txt",
-    "合作资源",
-    "本资源来自萌站：himengzhan.com  其他皆为山寨盗链，谨防被骗.url",
-    "地址发布页（务必收藏好呀）",
-    "1W＋免费游戏分享，加入莱茵图📖书馆 【黄油、RPG、GAL、SLG、ADV、ACT、3D......】",
-    "1W＋免费游戏分享，加入莱茵图📖书馆 【黄油、RPG、GAL、SLG、ADV、ACT、3D......】.url",
-    "超多涩涩视频，加入莱茵放映室🎥 【里番、3D、动态漫、同人......】",
-    "MTool_MapDataCache",
-    "点击此处开启汉化.bat",
-    "谨防被骗.png",
-    "翻墙软件及教程 .7z",
-    "翻墙软件及教程.7z",
-    "翻墙软件及教程.rar",
-    "更多游戏请点击.url",
-    "资源说明.txt",
-    "点击Game.exe启动游戏.txt",
-    "汉化留言，禁止删除.txt",
-    "萌站最新网址发布.url",
-    "游戏动漫资源网站【务必收藏}.url",
-    "萌站网址发布器V1.7.7.apk",
-    "萌影在线.apk",
-    "1W＋免费游戏分享，加入莱茵图书馆.txt",
-    "莱茵放映室🎥 【里番、3D、动态漫、同人......】.png",
-    "莱茵图📖书馆 【黄油、RPG、GAL、SLG、ADV、ACT、3D......】.png",
-    "超多涩涩视频，加入莱茵放映室🎥 【里番、3D、动态漫、同人......】.url",
-    "了解最详细解压码请加入我们.txt",
-    "Tool",
-    "quzimingyue",
-    "免费游戏资源点这.url",
-    "本资源来自爱社：isyx001.cc 其他皆为司马盗链，谨防被骗 - 副本",
-    "此游戏由黄油中心（老婆社）免费分享，电报搜索@LPS99.txt",
-    "点击购买机场用于翻墙.url",
-    "点击加入免费黄游频道（需要翻墙）.url",
-    "更多安卓黄油点击下载.url",
-    "更多免费黄油下载地址（记得收藏）.txt",
-    "更多资源（请务必收藏）1 - 副本.url",
-    "请先读我 - 副本.txt",
-    "wodeshujia",
-    "破解VIP方法.txt",
-    "游玩前需注意事项.txt",
-    "琉璃神社 ★ HACG.me.url",
-    "游戏如果无法打开 使用帮助.txt",
-    "e3388342@eyny",
-    "游戏汉化版启动方法必须看.txt",
-    "与工具一同启动.bat",
-    "此游戏由老婆社免费分享，电报搜索@LPS99.txt",
-    "点击购买机场用于翻墙.url",
-    "点击加入免费黄游频道（需要翻墙）.url",
-    "启动机翻.bat",
-    "MTool_MapDataCache",
-    "嘿嘿.txt",
-    "更多免费资源.txt",
-    "注：此资源仅免费分享于哥特论坛：Www.gtloli.gay  除此之外其他任何地方看到此说明文件均为死妈废物倒转",
-    "!点击下载最新版本.txt",
-    "精品免费黄油网站巫妖社.url",
-    "_免费的资源交流网站.url",
-    "点击进入更多内容.url",
-    "动漫王国_一个免费的资源交流网站-.txt",
-    "哥特动漫王国_首页.url",
-    "在开始游戏前必看操作.txt",
-    "最全免费黄油app巫妖社.apk",
-    "更多资源尽在公众号.png",
-    "steam.txt",
-    "steam.url",
-    "-READ ME.txt",
-    "Prohibit any reproduction without permission",
-    "Telegram@quzimingyue",
-    "文件来源.txt",
-    "G与工具一同启动.bat",
-    "ScreenSelector.bmp",
-    "My Links.url",
-    "永久发布页.url",
-    "异次元空间官网.url",
-    "异次元空间专属APP.apk",
-    "readme.txt",
-    "index.html.url",
-    "READ_ME.txt",
-    "本资源来至阿蕾的分享.url",
-    "必看的说明.txt",
-    "资源来自阿拉蕾的小窝分享 .txt",
-    "最新.url",
-    "America.png",
-    "更多免费资源（务必收藏）XP.txt",
-    "readme.txt",
-    "Read_Me.txt",
-    "config.txt",
-    "UnityPlayer.txt",
-    "发布页.url",
-    "Fap For Fun - Read me.txt",
-    "Fap For Fun.url",
-    "FapForFun – Free Hentai Torrent Download.url",
-    ".git",
-    ".gitignore",
-    "AGREE动漫游戏论坛.url",
-    "夜涩情趣淘宝店.url",
-    "夜涩情趣淘宝店推荐商品.html",
-    "请读我.txt",
-    "自购.jpg",
-    "重要说明.txt",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    ]
-    urlList = [
-        "https://www.gtloli.gay/",
-        "https://2.allacg.xyz/",
-        "https://t.me/huangyouqun",
-        "https://code.visualstudio.com/" # 专门排除 https://github.com/DazedMTL 的 readme
-    ]
-    ambiguityFileList = [
-        "readme.txt",
-        "Read_Me.txt",
-        "config.txt",
-        "UnityPlayer.txt",
-        "read me.txt",
-        "README.md",
-        # "",
-        # "",
-        # "",
-        # "",
-        # "",
-        # "",
-        # "",
-        # "",
-        # "",
-        # "",
-        # "",
-        # "",
-        # "",
-        # "",
-        # "",
-        # "",
-    ]
+    with open("E:\@home\celestial\code\python\myTools\\rubbishFile",encoding="utf-8") as tempList:
+        fileNameList = tempList.readlines()
+        rubbishFileList = []
+        for i in fileNameList:
+            rubbishFileList.append(i[0:len(i)-1])
+    with open("E:\@home\celestial\code\python\myTools\\urlList",encoding="utf-8") as tempList:
+        fileNameList = tempList.readlines()
+        urlList = []
+        for i in fileNameList:
+            urlList.append(i[0:len(i)-1])
+    with open("E:\@home\celestial\code\python\myTools\\ambiguityFileList",encoding="utf-8") as tempList:
+        aList = tempList.readlines()
+        ambiguityFileList = []
+        for i in aList:
+            ambiguityFileList.append(i[0:len(i)-1])
     for root, dirs, files in os.walk(unZipFolderPath):
         for dirctory in dirs:
             # 先删除文件夹
@@ -201,18 +46,18 @@ def deleteRubbish(unZipFolderPath):
                                         f.close()
                                         os.remove(rubbishFilePath)
                                         break
-                                print(rubbishFilePath+"没有发现推广链接，不删除")
                                 continue
                         except UnicodeDecodeError:
                             with open(rubbishFilePath,encoding='utf-8') as f:
-                                readmeText = f.read()
-                                for url in urlList:
-                                    urls = len(re.findall(url,readmeText))
-                                    if(urls != 0):
-                                        f.close()
-                                        os.remove(rubbishFilePath)
-                                        break
-                                print(rubbishFilePath+"没有发现推广链接，不删除")
+                                try:
+                                    readmeText = f.read()
+                                    for url in urlList:
+                                        urls = len(re.findall(url,readmeText))
+                                        if(urls != 0):
+                                            f.close()
+                                            os.remove(rubbishFilePath)
+                                            break
+                                except:pass
                                 continue
                     os.remove(rubbishFilePath)
                 except PermissionError:
@@ -221,8 +66,6 @@ def deleteRubbish(unZipFolderPath):
                     if os.path.exists(rubbishFilePath):
                         print("无法删除"+rubbishFilePath+"，需要手动干预")
                         continue
-                # except FileNotFoundError:
-                #     pass
     return 1
 
 def rmdir(path):
@@ -276,14 +119,7 @@ def envirnmentCheck():
     return addressOf7z[0]+"\\7z.exe"
 
 def getFileList(unZipFolderPath):
-    zipSuffix = [
-    "rar",
-    "zip",
-    ".7z",
-    "001",
-    "tar",
-    "zst"
-    ]
+    zipSuffix = ["rar","zip",".7z","001","tar","zst"]
     extractList = []
     multiFileList = []
     for fileName in os.listdir(unZipFolderPath):
@@ -323,50 +159,11 @@ def getFileList(unZipFolderPath):
     return extractList,multiFileList
 
 def extract(addressOf7z,filePath,fileName):
-    passwdList = [
-    "",
-    "半夏",
-    "莱茵",
-    "https://t.me/RhineLibrary",
-    "dayuyu",
-    "xiaoli",   
-    "ShirleyGames",
-    "lt.gkdacg.com",
-    "telegram@tgwebdrive",
-    "天堂巴比伦",
-    "LaiYin",
-    "逍遥2048",
-    "阿蕾",
-    "ed2k",
-    "指尖绅士",
-    "zx",
-    "三次郎",
-    "QW333",
-    "QW444",
-    "91acg.xyz",
-    "飞雪ACG论坛",
-    "@HanaYuki",
-    "哥特动漫王国@游龙逍遥",
-    "ashin791209@eyny",
-    "mengzhan-text",
-    "himengzhan.com",
-    "https://t.me/Zhzbzx",
-    "awacg.com@黄瓜侠",
-    "GG汉化组",
-    "昨晚晚安",
-    "iiacg.cc",
-    "951",
-    "MyRealDesire",
-    "jdt",
-    "频道关注@Zhzbzx",
-    "杏铃天下第一可爱",
-    "t.me/XLDTGPD",
-    "⑨",
-    "muko",
-    # "",
-    # "",
-    # "",
-    ]
+    with open("E:\@home\celestial\code\python\myTools\\passwdList",encoding="utf-8") as tempList:
+        aList = tempList.readlines()
+        passwdList = []
+        for i in aList:
+            passwdList.append(i[0:len(i)-1])
     folderName = fileName
     suffixName = re.findall(r'[.].{2,3}$',fileName)
     if suffixName != []:
@@ -377,6 +174,7 @@ def extract(addressOf7z,filePath,fileName):
         extractTarCommand = "%s x %s\%s -p%s -o\"%s\" -aoa"%(addressOf7z,filePath,fileName,passes,filePath)
         try:
             testResult = str(subprocess.Popen(testCommand,stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.read())
+            print(testResult)
             extractable = len(re.findall(r"Everything is Ok",testResult))+len(re.findall(r"There are data after the end of archive",testResult))
             if fileName[-3:] == "zst":
                 extractable += 98
@@ -404,16 +202,17 @@ def extract(addressOf7z,filePath,fileName):
         except PermissionError:
             print("访问被限制，请关闭所有的文件浏览器")
         return 0
-    print("无密码")
+    print("未知密码/无密码")
     return 0
 
 def main():
-    debugFlag = 0
+    debugFlag = 1
     clearFlag = 0
     addressOf7z,zstandardFlag = envirnmentCheck()
     if(addressOf7z == 0):
         return
-    unZipFolderPath = "D:\@game/new"
+    unZipFolderPath = "D:\@game\\new"
+    # unZipFolderPath = "D:\@game/games"
     unZipFileList,multiFileList = getFileList(unZipFolderPath)
     doneFileList = []
     for f in unZipFileList:
@@ -445,12 +244,13 @@ def main():
                 except:
                     print(fileName+" 无法移动")
                     pass
-    if clearFlag == 1:
+    if clearFlag == 0:
         deleteRubbish(unZipFolderPath)
     else:
         pass
     
 main()
 # todo 引擎判断
-# todo 分离垃圾文件名单
+# todo 分离垃圾文件名单，添加垃圾文件计数
 # todo 判断是否解压完成
+# todo 文件日志
