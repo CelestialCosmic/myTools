@@ -1,0 +1,2 @@
+choco install flameshot Listary Firefox steam keepassxc vscode files eartrumpet flow-launcher imageglass telegram qbittorrent-enhanced nanazip vlc locale-emulator scrcpy borderlessgaming obsidian adb alacritty winbtrfs python jdk20 --yes --force
+choco install steam epicgameslauncher --yes --force

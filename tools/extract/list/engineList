@@ -1,0 +1,46 @@
+# 根据常见程度排列
+# RPGMaker
+www:mvmz-html
+nw.dll:mvmz-html
+app.asar:mvmz-html
+# RPGMaker vxace
+.rgss3a:vx-vxace
+# RPGMaker vx
+.rgss2a:vx-vxace
+.rvproj2:vx-vxace
+# unity
+UnityPlayer.dll:unity
+Assembly-CSharp.dll:unity
+GameAssembly.dll:unity
+# wolf
+.wolf:wolf
+# UE
+Engine:Unreal
+# pixelmakerMV
+player.dll:pgm
+# kr
+data.xp3:majiro
+# renpy/tyrano
+nscript.dat:nscripter
+# nscripter
+__init__.py:renpy
+# gamemaker
+data.win:gamemaker
+# godot 项目密钥文件
+.pck:godot
+# cmvs
+cmvs:cmvs
+# livemaker
+live.dll:livemaker
+# siglus
+SiglusEngine.exe:siglus
+# srpgstudio
+runtime.rts:srpgstudio
+# flash
+.swf:flash
+.cxt:flash
+# YU-RIS Script Engine
+.ymv:yuris
+# 暂时未知的引擎
+.tad:unknown
+xaudio2_9redist.dll:unknown
