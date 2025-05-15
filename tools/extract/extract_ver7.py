@@ -119,8 +119,8 @@ def main():
     numToDo = 0
     numDone = 0
     pool = Pool(Config.poolmax)
-    Config.password = loadList("E:/code/tools/extract/passwdList")
-    Config.engines = loadDict("E:/code/tools/extract/engineList")
+    Config.password = loadList("E:/code/tools/extract/list/passwdList")
+    Config.engines = loadDict("E:/code/tools/extract/list/engineList")
     # 读取文件
     file_list = os.listdir(Config.input_path)
     numToDo = len(file_list)
@@ -161,7 +161,7 @@ def clear(p):
         clear_path = Config.output_path
     else:
         clear_path = p
-    rubbishList = loadList("E:/code/tools/extract/rubbishlist")
+    rubbishList = loadList("E:/code/tools/extract/list/rubbishList")
     for root,dirs,files in os.walk(clear_path):
         for file in files:
             # print(file)
@@ -187,9 +187,9 @@ def clear(p):
 
 # 基础配置
 class Config:
-    mode = 1
+    mode = 0
     input_path = "E:/game/download"
-    output_path = "E:/game/extracted2"
+    output_path = "E:/game/extracted"
     extract_flag = True
     password = []
     engines = []
@@ -205,7 +205,8 @@ if __name__ == "__main__":
         print("清理了%d个文件,%d个文件夹"%(numFile,numDir))
     elif(Config.mode == 1):
         path = input("输入清理路径\n")
-        if path == " ":
+        if path != " ":
+            print(path)
             numDir,numFile = clear(path)
         else:
             numDir,numFile = clear(Config.output_path)

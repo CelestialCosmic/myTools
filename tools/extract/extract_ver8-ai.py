@@ -8,7 +8,7 @@
 4. 针对 rar 和 zip 的分卷压缩包，程序依据文件名规则（例如：rar 分卷中非 part1 的直接跳过，zip 分卷只处理 .zip 文件）只对第一卷解压，并将该组所有文件在解压成功后整体移动到 done 文件夹。
 5. 针对 tar.gz/tar.zst 等，先在临时目录中完全解压，然后进一步提取 tar 包内容到 extracted 文件夹。
 """
-
+import clear_ai
 import os
 import re
 import subprocess
@@ -16,7 +16,7 @@ import shutil
 import sys
 import tempfile
 
-def read_passwords(password_file='password.txt'):
+def read_passwords(password_file='E:/code/tools/extract/list/passwdList'):
     """
     从密码文件读取每个可能的密码，返回密码列表
     """
@@ -137,9 +137,9 @@ def extract_archive(archive_file, output_dir, password, special=False):
         result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         return result.returncode == 0
 
-def main():
+def main(folder):
     passwords = read_passwords()
-    folder = input("请输入需要解压的文件夹路径: ").strip()
+    # folder = input("请输入需要解压的文件夹路径: ").strip()
     if not os.path.exists(folder) or not os.path.isdir(folder):
         print("文件夹不存在。")
         sys.exit(1)
@@ -208,4 +208,6 @@ def main():
             processed.add(file_path)
 
 if __name__ == "__main__":
-    main()
+    folder = input("请输入需要解压的文件夹路径\n").strip()
+    main(folder)
+    clear_ai.clear(folder)
